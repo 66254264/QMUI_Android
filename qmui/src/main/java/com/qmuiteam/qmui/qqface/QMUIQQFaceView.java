@@ -105,7 +105,7 @@ public class QMUIQQFaceView extends View {
     private int mParagraphSpace = 0; // 段间距
     private int mSpecialDrawablePadding = 0;
     private int mGravity = Gravity.NO_GRAVITY;
-    private final int[] mPressedState = new int[] { android.R.attr.state_pressed};
+    private final int[] mPressedState = new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled};
     private boolean mIsNeedUnderlineForMoreText = false;
     private int mLinkUnderLineColor = 0;
     private int mLinkUnderLineHeight = 1;
@@ -825,8 +825,6 @@ public class QMUIQQFaceView extends View {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        Log.i(TAG, "widthSize = " + widthSize + "; heightSize = " + heightSize);
-
         mLines = 0;
         mParagraphShowCount = 0;
         int width, height;
@@ -884,7 +882,7 @@ public class QMUIQQFaceView extends View {
                 break;
         }
         setMeasuredDimension(width, height);
-        Log.i(TAG, "mLines = " + mLines + " ; width = " + width + " ; height = "
+        Log.v(TAG, "mLines = " + mLines + " ; width = " + width + " ; height = "
                 + height + " ; maxLine = " + maxLine + "; measure time = "
                 + (System.currentTimeMillis() - start));
     }
@@ -901,7 +899,7 @@ public class QMUIQQFaceView extends View {
         setStartDrawUsedWidth(getPaddingLeft(), getWidth() - getPaddingLeft() - getPaddingRight());
         mIsExecutedMiddleEllipsize = false;
         drawElements(canvas, elements, getWidth() - getPaddingLeft() - getPaddingRight());
-        Log.i(TAG, "onDraw spend time = " + (System.currentTimeMillis() - start));
+        Log.v(TAG, "onDraw spend time = " + (System.currentTimeMillis() - start));
     }
 
     private int mCurrentDrawBaseLine;
@@ -1459,7 +1457,7 @@ public class QMUIQQFaceView extends View {
         }
         int top = getPaddingTop();
         if (line > 1) {
-            top = (line - 1) * (mFontHeight + mLineSpace) + top;
+            top = mCurrentDrawBaseLine - mFirstBaseLine;
         }
         canvas.save();
         canvas.translate(mCurrentDrawUsedWidth, top);
